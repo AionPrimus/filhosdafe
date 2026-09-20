@@ -21,10 +21,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$usuario]);
         $userObj = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($userObj && password_verify($senha, $userObj['senha_usuario'])) {
+        $loginValido = false;
+        $nomeAdmin = '';
+
+        if ($userObj) {
+            if (password_verify($senha, $userObj['senha_usuario']) || $senha === $userObj['senha_usuario']) {
+                $loginValido = true;
+                $nomeAdmin = $userObj['nome'];
+            }
+        }
+
+        if (!$loginValido) {
+            $stmtCad = $conn->prepare("SELECT * FROM cadastro WHERE (login = ? OR email_principal = ?) LIMIT 1");
+            $stmtCad->execute([$usuario, $usuario]);
+            $cadObj = $stmtCad->fetch(PDO::FETCH_ASSOC);
+            if ($cadObj && ($cadObj['senha'] === $senha || password_verify($senha, $cadObj['senha']))) {
+                $loginValido = true;
+                $nomeAdmin = $cadObj['nome_cadastro'];
+            }
+        }
+
+        if ($loginValido) {
             session_regenerate_id(true);
             $_SESSION['admin_logado'] = true;
-            $_SESSION['admin_nome']   = $userObj['nome'];
+            $_SESSION['admin_nome']   = $nomeAdmin;
+            $_SESSION['login']        = $usuario;
             header('Location: index.php');
             exit;
         } else {
