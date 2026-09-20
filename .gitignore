@@ -1,0 +1,20 @@
+# Dumps e backups de banco de dados
+*.sql
+*.sql.gz
+*.tar.gz
+*.zip
+
+# Editores e Dreamweaver
+_notes/
+dwsync.xml
+.vscode/
+.idea/
+
+# Sistema Operacional
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Uploads em desenvolvimento local (mantendo a pasta via .gitkeep)
+public_html/gestor/uploads/*
+!public_html/gestor/uploads/.gitkeep
