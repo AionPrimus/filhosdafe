@@ -1,6 +1,7 @@
 <?php
 // =====================================================
-// Filhos da Fé — cadastrorapido.php (Pré-Cadastro Público)
+// PAULO HENRIQUE 30220 — Candidato a Deputado Estadual
+// Captação de Apoiadores
 // =====================================================
 require_once __DIR__ . '/gestor/conexao.php';
 
@@ -34,20 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tel_celular   = trim($_POST['tel_celular'] ?? '');
 
     if (empty($nome_lider)) {
-        $erro = 'Por favor, informe ou selecione o Nome do Líder.';
+        $erro = 'Por favor, informe ou selecione o Nome da Liderança.';
     } elseif (empty($nome_cadastro)) {
-        $erro = 'Por favor, preencha o seu Nome Completo.';
+        $erro = 'Por favor, preencha o Nome Completo do Apoiador.';
     } elseif (empty($tel_celular)) {
-        $erro = 'Por favor, informe o seu Telefone / WhatsApp.';
+        $erro = 'Por favor, informe o Telefone / WhatsApp do Apoiador.';
     } else {
         try {
             $datatime = date('d/m/Y - H:i:s');
             $ip_cadastro = $_SERVER['REMOTE_ADDR'] ?? '';
             $matricula_cadastro = date('dmYHis');
             $situacao_cadastral = 'AGUARDANDO';
-            $nome_casa = 'TENDA ESPÍRITA FILHOS DA FÉ';
-            $nome_dirigente = 'WILLIAN GOMES';
-            $telefone_casa = '(62) 99882-8682';
+            $nome_casa = 'PAULO HENRIQUE 30220';
+            $nome_dirigente = 'PAULO HENRIQUE';
+            $telefone_casa = '';
 
             $sql = "INSERT INTO cadastro (
                 datatime, ip_cadastro, matricula_cadastro, situacao_cadastral,
@@ -91,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro Rápido — Tenda Espírita Filhos da Fé</title>
+    <title>PAULO HENRIQUE 30220 — Candidato a Deputado Estadual</title>
     <link rel="icon" href="ico.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -517,7 +518,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <h1 style="font-size: 25px; margin-bottom: 6px;">Cadastro Enviado com Sucesso!</h1>
-                <p class="subtitle">Os dados de <strong><?= htmlspecialchars($dadosEnviados['nome']) ?></strong> foram recebidos com sucesso.</p>
+                <p class="subtitle">Os dados do apoiador <strong><?= htmlspecialchars($dadosEnviados['nome']) ?></strong> foram recebidos com sucesso.</p>
 
                 <div class="thank-you-badge">
                     <div class="thank-you-title">
@@ -527,8 +528,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         PAULO HENRIQUE 30220
                     </div>
                     <p class="thank-you-msg">
-                        Agradecemos de coração pelo seu apoio e confiança!<br>
-                        <strong>Tenda Espírita Filhos da Fé</strong> &bull; Líder: <strong><?= htmlspecialchars($dadosEnviados['lider']) ?></strong>
+                        Agradecemos de coração pelo seu apoio e confiança nesta caminhada!
                     </p>
                 </div>
 
@@ -542,8 +542,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </span>
                 </div>
 
-                <a href="cadastrorapido.php" class="btn-new">
-                    <i class="fa fa-user-plus"></i> Fazer Outro Cadastro Rápido
+                <a href="<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? 'cadastrorapido.php') ?>" class="btn-new">
+                    <i class="fa fa-user-plus"></i> Fazer Outro Cadastro de Apoiador
                 </a>
             </div>
 
@@ -552,17 +552,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Cabeçalho -->
             <div class="header-brand">
                 <div class="logo-badge">
-                    <i class="fa fa-star-of-david"></i>
+                    <i class="fa fa-bullhorn"></i>
                 </div>
-                <h1>Tenda Espírita Filhos da Fé</h1>
-                <p class="subtitle">Pré-Cadastro Rápido de Membros e Apoiadores</p>
+                <h1>PAULO HENRIQUE 30220</h1>
+                <p class="subtitle">Candidato a Deputado Estadual &bull; Captação de Apoiadores</p>
             </div>
 
             <!-- Banner de Aviso de Preenchimento -->
             <div class="notice-banner">
                 <i class="fa fa-circle-info"></i>
                 <div>
-                    <strong>Aviso importante:</strong> Preencha os 3 campos abaixo para iniciar seu pré-cadastro rápido. Seus dados serão vinculados ao líder indicado.
+                    <strong>Instruções de Preenchimento:</strong><br>
+                    &bull; <strong>Nome da Liderança (Líder):</strong> quem indicou ou fez o convite.<br>
+                    &bull; <strong>Nome e Telefone:</strong> são os dados pessoais do <strong>APOIADOR</strong>.
                 </div>
             </div>
 
@@ -574,51 +576,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <!-- Formulário -->
-            <form method="POST" action="cadastrorapido.php" id="formRapido" autocomplete="off">
+            <form method="POST" action="" id="formRapido" autocomplete="off">
 
-                <!-- 1. Nome do Líder com AJAX / Autocomplete -->
+                <!-- 1. Nome da Liderança (Líder) com AJAX / Autocomplete -->
                 <div class="form-group">
                     <label class="form-label" for="inputLider">
-                        <span><i class="fa fa-user-shield" style="margin-right:6px; color:#a78bfa;"></i>Nome do Líder</span>
-                        <span class="badge-hint">Escolha ou digite um novo</span>
+                        <span><i class="fa fa-user-shield" style="margin-right:6px; color:#a78bfa;"></i>Nome da Liderança (Líder)</span>
+                        <span class="badge-hint">Liderança / Indicação</span>
                     </label>
                     <div class="input-wrapper">
                         <input type="text" 
                                id="inputLider" 
                                name="nome_lider" 
                                class="form-control" 
-                               placeholder="Comece a digitar o líder..." 
+                               placeholder="Digite o nome da liderança que te indicou..." 
                                value="<?= htmlspecialchars($_POST['nome_lider'] ?? '') ?>"
                                required
                                autocomplete="off">
                         <i class="fa fa-users input-icon"></i>
                         <div class="suggestions-box" id="suggestionsBox"></div>
                     </div>
+                    <div style="font-size: 11.5px; color: #94a3b8; margin-top: 6px; display: flex; align-items: center; gap: 5px;">
+                        <i class="fa fa-circle-info" style="color: #a78bfa;"></i> Informe o nome da liderança responsável pelo convite.
+                    </div>
                 </div>
 
-                <!-- 2. Nome Completo -->
+                <!-- 2. Nome Completo do Apoiador -->
                 <div class="form-group">
                     <label class="form-label" for="inputNome">
-                        <span><i class="fa fa-user" style="margin-right:6px; color:#38bdf8;"></i>Nome Completo</span>
-                        <span class="badge-hint">Obrigatório</span>
+                        <span><i class="fa fa-user" style="margin-right:6px; color:#38bdf8;"></i>Nome Completo do Apoiador</span>
+                        <span class="badge-hint">Dados do Apoiador</span>
                     </label>
                     <div class="input-wrapper">
                         <input type="text" 
                                id="inputNome" 
                                name="nome_cadastro" 
                                class="form-control" 
-                               placeholder="Ex: João da Silva Santos" 
+                               placeholder="Ex: Nome Completo do Apoiador" 
                                value="<?= htmlspecialchars($_POST['nome_cadastro'] ?? '') ?>"
                                required>
                         <i class="fa fa-id-card input-icon"></i>
                     </div>
+                    <div style="font-size: 11.5px; color: #94a3b8; margin-top: 6px; display: flex; align-items: center; gap: 5px;">
+                        <i class="fa fa-circle-info" style="color: #38bdf8;"></i> Nome completo do apoiador que está sendo cadastrado.
+                    </div>
                 </div>
 
-                <!-- 3. Telefone / WhatsApp -->
+                <!-- 3. Telefone / WhatsApp do Apoiador -->
                 <div class="form-group">
                     <label class="form-label" for="inputTel">
-                        <span><i class="fa-brands fa-whatsapp" style="margin-right:6px; color:#34d399;"></i>WhatsApp / Telefone</span>
-                        <span class="badge-hint">Com DDD</span>
+                        <span><i class="fa-brands fa-whatsapp" style="margin-right:6px; color:#34d399;"></i>Telefone / WhatsApp do Apoiador</span>
+                        <span class="badge-hint">Contato do Apoiador</span>
                     </label>
                     <div class="input-wrapper">
                         <input type="tel" 
@@ -631,17 +639,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                required>
                         <i class="fa fa-phone input-icon"></i>
                     </div>
+                    <div style="font-size: 11.5px; color: #94a3b8; margin-top: 6px; display: flex; align-items: center; gap: 5px;">
+                        <i class="fa fa-circle-info" style="color: #34d399;"></i> Telefone ou WhatsApp de contato direto do apoiador (com DDD).
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-submit" id="btnSubmit">
-                    <i class="fa fa-paper-plane"></i> Enviar Cadastro Rápido
+                    <i class="fa fa-paper-plane"></i> Enviar Cadastro do Apoiador
                 </button>
             </form>
 
         <?php endif; ?>
 
         <div class="footer-note">
-            Tenda Espírita Filhos da Fé &bull; Apoio Paulo Henrique 30220
+            PAULO HENRIQUE 30220 &bull; Candidato a Deputado Estadual
         </div>
 
     </div>
@@ -676,7 +687,7 @@ let debounceTimer = null;
 
 if (inputLider && suggestionsBox) {
     function fetchLideres(query = '') {
-        fetch(`cadastrorapido.php?action=busca_lideres&q=${encodeURIComponent(query)}`)
+        fetch(`?action=busca_lideres&q=${encodeURIComponent(query)}`)
             .then(res => res.json())
             .then(data => {
                 suggestionsBox.innerHTML = '';
