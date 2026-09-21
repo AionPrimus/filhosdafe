@@ -86,14 +86,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$baseDir = rtrim(str_replace('\\', '/', dirname($_SERVER['PHP_SELF'] ?? '')), '/');
+$baseUrl = $protocol . $host . ($baseDir ? $baseDir : '');
+$cardUrl = $baseUrl . '/assets/paulo_henrique_card.png';
+$faviconUrl = $baseUrl . '/assets/ph_favicon.png';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAULO HENRIQUE 30220 — Candidato a Deputado Estadual</title>
-    <link rel="icon" href="ico.png" type="image/png">
+    <title>PAULO HENRIQUE DEPUTADO ESTADUAL 30220</title>
+    <meta name="description" content="PAULO HENRIQUE DEPUTADO ESTADUAL 30220 — Formulário Oficial de Captação e Pré-Cadastro de Apoiadores.">
+
+    <!-- Open Graph / Compartilhamento WhatsApp, Telegram, Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PAULO HENRIQUE 30220">
+    <meta property="og:title" content="PAULO HENRIQUE DEPUTADO ESTADUAL 30220">
+    <meta property="og:description" content="Formulário Oficial de Apoio — PAULO HENRIQUE DEPUTADO ESTADUAL 30220. Cadastre-se e participe!">
+    <meta property="og:image" content="<?= htmlspecialchars($cardUrl) ?>">
+    <meta property="og:image:secure_url" content="<?= htmlspecialchars($cardUrl) ?>">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PAULO HENRIQUE DEPUTADO ESTADUAL 30220">
+    <meta name="twitter:description" content="Formulário Oficial de Apoio — PAULO HENRIQUE DEPUTADO ESTADUAL 30220.">
+    <meta name="twitter:image" content="<?= htmlspecialchars($cardUrl) ?>">
+
+    <!-- Favicon da Campanha Paulo Henrique 30220 -->
+    <link rel="icon" href="<?= htmlspecialchars($faviconUrl) ?>" type="image/png">
+    <link rel="shortcut icon" href="<?= htmlspecialchars($faviconUrl) ?>" type="image/png">
+    <link rel="apple-touch-icon" href="<?= htmlspecialchars($faviconUrl) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -555,7 +583,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fa fa-bullhorn"></i>
                 </div>
                 <h1>PAULO HENRIQUE 30220</h1>
-                <p class="subtitle">Candidato a Deputado Estadual &bull; Captação de Apoiadores</p>
+                <p class="subtitle" style="font-size: 15px; font-weight: 700; color: #34d399; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Deputado Estadual</p>
+                <p class="subtitle" style="font-size: 13px; color: #94a3b8; margin-top: 2px;">Captação Oficial de Apoiadores</p>
             </div>
 
             <!-- Banner de Aviso de Preenchimento -->
@@ -652,7 +681,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <div class="footer-note">
-            PAULO HENRIQUE 30220 &bull; Candidato a Deputado Estadual
+            PAULO HENRIQUE DEPUTADO ESTADUAL 30220
         </div>
 
     </div>
@@ -705,7 +734,7 @@ if (inputLider && suggestionsBox) {
                     });
                     const help = document.createElement('div');
                     help.className = 'suggestion-help';
-                    help.textContent = 'Ou continue digitando para cadastrar um novo líder';
+                    help.textContent = 'Ou continue digitando o nome da liderança';
                     suggestionsBox.appendChild(help);
                     suggestionsBox.style.display = 'block';
                 } else {
