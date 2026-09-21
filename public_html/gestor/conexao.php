@@ -1,5 +1,14 @@
 <?php
-$isLocalhost = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1']);
+$httpHost = strtolower($_SERVER['HTTP_HOST'] ?? '');
+$serverName = strtolower($_SERVER['SERVER_NAME'] ?? '');
+$remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
+
+$isLocalhost = empty($httpHost)
+    || str_contains($httpHost, 'localhost')
+    || str_contains($httpHost, '127.0.0.1')
+    || str_contains($serverName, 'localhost')
+    || in_array($remoteAddr, ['127.0.0.1', '::1'])
+    || php_sapi_name() === 'cli';
 
 $host   = "localhost";
 $dbname = "filhosdafecom_bancox";
@@ -16,8 +25,10 @@ if ($isLocalhost) {
 }
 
 try {
-    $conn = new PDO("mysql:host=$host;port=$port;dbname=" . $dbname, $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new PDO("mysql:host=$host;port=$port;dbname=" . $dbname . ";charset=utf8mb4", $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
 } catch(PDOException $err) {
-    // echo "Erro: Conexão com banco de dados não realizado com sucesso. Erro gerado " . $err->getMessage();
+    die("Erro ao conectar no banco de dados (" . ($isLocalhost ? "Ambiente Local" : "Ambiente Online") . "): " . $err->getMessage());
 }

@@ -1,12 +1,11 @@
 
 <?php
+require_once __DIR__ . '/conexao.php';
 
-$usuario = 'filhosdafecom_aion';
-$senha = 'aionroot0713';
-$database = 'filhosdafecom_bancox';
-$host = 'localhost';
-
-$mysqli = new mysqli($host, $usuario, $senha, $database);
+$mysqli = new mysqli($host, $user, $pass, $dbname);
+if ($mysqli->connect_error) {
+    die("Falha na conexão: " . $mysqli->connect_error);
+}
 
 
 
